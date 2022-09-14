@@ -43,18 +43,7 @@ function sortearCarta() {
     document.getElementById("btnSortear").disabled = true;
     document.getElementById("btnJogar").disabled = false;
 
-    exibirOpcoes();
-}
-
-function exibirOpcoes() {
-    var opcoes = document.getElementById("opcoes");
-    var opcoesTexto = "";
-
-    for (let atributo in cartaJogador.atributos) {
-        opcoesTexto += "<input type='radio' name='atributo' value='"
-            + atributo + "'>" + atributo.toUpperCase() + "<br/>";
-    }
-    opcoes.innerHTML = opcoesTexto;
+    exibirCartaJogador();
 }
 
 function obtemAtributo() {
@@ -68,22 +57,52 @@ function obtemAtributo() {
 
 function jogar() {
     var atributoSelecionado = obtemAtributo();
-    var elementoResultado = document.getElementById("resultado");
+    var divResultado = document.getElementById("resultado");
     var valorCartaJogador = cartaJogador.atributos[atributoSelecionado];
     var valorCartaMaquina = cartaMaquina.atributos[atributoSelecionado];
 
     if(valorCartaJogador > valorCartaMaquina ) {
-        elementoResultado.innerHTML = "Você venceu! Sua carta é: " 
-            + cartaJogador.nome + "<br/><img id='carta-imagem' src=" 
-            + cartaJogador.imagem + ">";
+        divResultado.innerHTML = "<p class='resultado-final'>Você venceu!</p>";
     } else if(valorCartaJogador < valorCartaMaquina) {
-        elementoResultado.innerHTML = "Você perdeu! Sua carta é: " 
-            + cartaJogador.nome + "<br/><img id='carta-imagem' src=" 
-            + cartaJogador.imagem + ">";
+        divResultado.innerHTML = "<p class='resultado-final'>Você perdeu!</p>";
     } else if(valorCartaJogador === valorCartaMaquina && valorCartaJogador != undefined) {
-        elementoResultado.innerHTML = "Empatou! Sua carta é: " 
-            + cartaJogador.nome + "<br/><img id='carta-imagem' src=" 
-            + cartaJogador.imagem + ">";
+        divResultado.innerHTML = "<p class='resultado-final'>Empatou!</p>";
     } else 
-        elementoResultado.innerHTML = "Selecione um atributo!"; 
+        divResultado.innerHTML = "<p class='resultado-final'>Selecione um atributo!</p>"; 
+    
+    document.getElementById("btnJogar").disabled = true;
+    exibirCartaMaquina();
+}
+
+function exibirCartaJogador() {
+    var divCartaJogador = document.getElementById("carta-jogador");
+    divCartaJogador.style.backgroundImage = `url(${cartaJogador.imagem})`;
+    var moldura = '<img src="https://www.alura.com.br/assets/img/imersoes/dev-2021/card-super-trunfo-transparent-ajustado.png" style=" width: inherit; height: inherit; position: absolute;">';
+    var tagHTML = "<div id='opcoes' class='carta-status'>";
+    
+    var opcoesTexto = "";
+    for (let atributo in cartaJogador.atributos) {
+        opcoesTexto += "<input type='radio' name='atributo' value='"+ 
+            atributo + "'>" + atributo.toUpperCase() + " " + 
+            cartaJogador.atributos[atributo] + "<br>";
+    }
+    var nome = `<p class="carta-subtitle">${cartaJogador.nome}</p>`;
+    divCartaJogador.innerHTML = moldura + nome + tagHTML + opcoesTexto + "</div>";
+}
+
+function exibirCartaMaquina() {
+    var divCartaMaquina = document.getElementById("carta-maquina");
+    divCartaMaquina.style.backgroundImage = `url(${cartaMaquina.imagem})`;
+    var moldura = '<img src="https://www.alura.com.br/assets/img/imersoes/dev-2021/card-super-trunfo-transparent-ajustado.png" style=" width: inherit; height: inherit; position: absolute;">';
+    var tagHTML =  "<div id='opcoes' class='carta-status'>";
+
+    var opcoesTexto = "";
+    for(let atributo in cartaMaquina.atributos) {
+        opcoesTexto += "<p type='text' name='atributo' value='"+ 
+            atributo + "'>" + atributo.toUpperCase() + " " + 
+            cartaMaquina.atributos[atributo] + "</p>";
+    }
+
+    var nome = `<p class="carta-subtitle">${cartaMaquina.nome}</p>`;
+    divCartaMaquina.innerHTML = moldura + nome + tagHTML + opcoesTexto + "</div>";
 }
