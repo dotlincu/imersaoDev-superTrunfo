@@ -1,5 +1,6 @@
 var carta1 = {
-    nome: "Darth Vader",
+    nome: "Gintoki Sataka",
+    imagem: "http://pm1.narvii.com/6344/7861a26b495569a5c6331058c0f8566dc7500a51_00.jpg",
     atributos: {
         ataque: 9,
         defesa: 8,
@@ -8,16 +9,18 @@ var carta1 = {
 };
 
 var carta2 = {
-    nome: "Shiryu de Dragão",
+    nome: "Kenshin Himura",
+    imagem: "https://s.aficionados.com.br/imagens/tudo-sobre-samurai-x_t.jpg",
     atributos: {
         ataque: 7,
         defesa: 8,
-        magia: 9
+        magia: 9 
     }
 };
 
 var carta3 = {
-    nome: "Bulbassauro",
+    nome: "Zoro",
+    imagem: "https://sm.ign.com/ign_br/screenshot/default/blob_va9k.jpg",
     atributos: {
         ataque: 10,
         defesa: 7,
@@ -49,7 +52,7 @@ function exibirOpcoes() {
 
     for (let atributo in cartaJogador.atributos) {
         opcoesTexto += "<input type='radio' name='atributo' value='"
-            + atributo + "'>" + atributo + "<br/>";
+            + atributo + "'>" + atributo.toUpperCase() + "<br/>";
     }
     opcoes.innerHTML = opcoesTexto;
 }
@@ -70,10 +73,17 @@ function jogar() {
     var valorCartaMaquina = cartaMaquina.atributos[atributoSelecionado];
 
     if(valorCartaJogador > valorCartaMaquina ) {
-        elementoResultado.innerHTML = "Você venceu!";
+        elementoResultado.innerHTML = "Você venceu! Sua carta é: " 
+            + cartaJogador.nome + "<br/><img id='carta-imagem' src=" 
+            + cartaJogador.imagem + ">";
     } else if(valorCartaJogador < valorCartaMaquina) {
-        elementoResultado.innerHTML = "Você perdeu!";
-    } else{
-        elementoResultado.innerHTML = "Empatou!";
-    } 
+        elementoResultado.innerHTML = "Você perdeu! Sua carta é: " 
+            + cartaJogador.nome + "<br/><img id='carta-imagem' src=" 
+            + cartaJogador.imagem + ">";
+    } else if(valorCartaJogador === valorCartaMaquina && valorCartaJogador != undefined) {
+        elementoResultado.innerHTML = "Empatou! Sua carta é: " 
+            + cartaJogador.nome + "<br/><img id='carta-imagem' src=" 
+            + cartaJogador.imagem + ">";
+    } else 
+        elementoResultado.innerHTML = "Selecione um atributo!"; 
 }
